@@ -1,78 +1,21 @@
 
-import Input from './components/Input';
-import Button from './components/Button';
+import Input from './components/ui/Input';
+import Button from './components/ui/Button';
 
 import { Container, Content, Row } from './styles';
-import { useState } from 'react';
 
+import { useCalculationController } from './useCalculationController';
 
 const App = () => {
-  const [currentNumber, setCurrentNumber] = useState('0');
-  const [firstNumber, setFirstNumber] = useState('0');
-  const [operation, setOperation] = useState('');
-
-  const handleOnClear = () => {
-    setCurrentNumber('0')
-    setFirstNumber('0')
-    setOperation('')
-  };
-
-  const handleAddNumber = (num) => {
-    setCurrentNumber(prev => `${prev === '0' ? '' : prev}${num}`)
-  }
-
-  const handleSumNumbers = () => {
-
-    if(firstNumber === '0'){
-        setFirstNumber(String(currentNumber));
-        setCurrentNumber('0')
-        setOperation('+')
-    }else {
-      const sum = Number(firstNumber) + Number(currentNumber);
-      setCurrentNumber(String(sum))
-      setOperation('')
-    }
-
-  }
-
-  const handleMinusNumbers = () => {
-
-    if(firstNumber === '0'){
-        setFirstNumber(String(currentNumber));
-        setCurrentNumber('0')
-        setOperation('-')
-    }else {
-      const sum = Number(firstNumber) - Number(currentNumber);
-      setCurrentNumber(String(sum))
-      setOperation('')
-    }
-
-  }
-
-  const handleEquals = () => {
-
-    if(firstNumber !== '0' && operation !== '' && currentNumber !== '0'){
-        switch(operation){
-          case '+':
-            handleSumNumbers();
-            break;
-          case '-':
-            handleMinusNumbers();
-            break;
-          default: 
-            break;
-        }
-    }
-
-  }
+  const { currentNumber, handleMultiplyNumbers, handleDivisionNumbers, handleOnClear, handleAddNumber, handleMinusNumbers, handleSumNumbers, handleEquals } = useCalculationController();
 
   return (
     <Container>
       <Content>
         <Input value={currentNumber}/>
         <Row>
-          <Button label="x"/>
-          <Button label="/"/>
+          <Button label="x" onClick={handleMultiplyNumbers}/>
+          <Button label="/" onClick={handleDivisionNumbers}/>
           <Button label="c" onClick={handleOnClear}/>
           <Button label="."/>
         </Row>
